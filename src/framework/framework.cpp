@@ -2,6 +2,8 @@
 
 #include <framework/framework.hpp>
 
+#include <allegro5/allegro_image.h>
+
 
 ALLEGRO_EVENT_QUEUE *master_event_queue = nullptr;
 
@@ -14,10 +16,17 @@ Framework::Framework()
    , timer(nullptr)
    , screens()
 {
-   if (master_event_queue) throw std::runtime_error("duplicate calling of Framework");
    al_init();
+
+   if (!al_init_image_addon()) throw std::runtime_error("al_init_image_addon() failed");
+
+   ALLEGRO_PATH *resource_path = al_get_standard_path(ALLEGRO_RESOURCES_PATH);
+   al_change_directory(al_path_cstr(resource_path, ALLEGRO_NATIVE_PATH_SEP));
+   al_destroy_path(resource_path);
+
+   if (master_event_queue) throw std::runtime_error("duplicate calling of Framework");
    master_event_queue = al_create_event_queue();
-   display = al_create_display(800, 600);
+   display = al_create_display(1280, 720);
    timer = al_create_timer(ALLEGRO_BPS_TO_SECS(60));
 
    if (!al_install_keyboard()) throw std::runtime_error("al_install_keyboard() failed.");
@@ -28,8 +37,6 @@ Framework::Framework()
    al_register_event_source(master_event_queue, &event_source);
    al_register_event_source(master_event_queue, timer_event_source);
    al_register_event_source(master_event_queue, keyboard_event_source);
-
-
 }
 
 
