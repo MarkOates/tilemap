@@ -15,7 +15,7 @@ public:
 
    Project()
       : tile_map_factory()
-      , current_tile_map(tile_map_factory.create_tile_map())
+      , current_tile_map(tile_map_factory.create_zoria_tile_map())
    {
       ALLEGRO_BITMAP *bitmap = al_get_backbuffer(al_get_current_display());
       ALLEGRO_TRANSFORM trans;

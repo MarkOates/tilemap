@@ -10,13 +10,15 @@ class TileMap;
 class TileMapFactory
 {
 private:
-   SpriteSheet tiles_sprite_sheet;
+   SpriteSheet forest_tiles_sprite_sheet;
+   SpriteSheet zoria_tiles_sprite_sheet;
 
 public:
    TileMapFactory();
    ~TileMapFactory();
 
-   TileMap *create_tile_map();
+   TileMap *create_forest_tile_map();
+   TileMap *create_zoria_tile_map();
 };
 
 
