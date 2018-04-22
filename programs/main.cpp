@@ -17,12 +17,14 @@ public:
       : tile_map_factory()
       , current_tile_map(tile_map_factory.create_tile_map())
    {
-      //al_set_target_bitmap(al_get_backbuffer(al_get_current_display()));
-      //Placement2D projection;
-      //ALLEGRO_TRANSFORM projection_transform;
-      //projection.scale = vec2d(1, 1);
-      //projection.build_reverse_transform(&projection_transform);
-      //al_use_projection_transform(&projection_transform);
+      ALLEGRO_BITMAP *bitmap = al_get_backbuffer(al_get_current_display());
+      ALLEGRO_TRANSFORM trans;
+      al_identity_transform(&trans);
+      al_orthographic_transform(&trans, 0, 0, -1.0, al_get_bitmap_width(bitmap)/5,
+            al_get_bitmap_height(bitmap)/5, 1.0);
+
+      al_set_target_bitmap(bitmap);
+      al_use_projection_transform(&trans);
    }
 
    void initializer()
