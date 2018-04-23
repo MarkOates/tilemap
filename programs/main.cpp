@@ -15,7 +15,7 @@ public:
 
    Project()
       : tile_map_factory()
-      , current_tile_map(tile_map_factory.create_zoria_tile_map())
+      , current_tile_map(tile_map_factory.create_zoria_grass_map())
    {
    }
 
@@ -29,7 +29,7 @@ public:
 
       al_set_target_bitmap(bitmap);
       al_use_projection_transform(&trans);
-      al_clear_to_color(color::pink);
+      al_clear_to_color(color::hex("73ce26"));
 
       if (current_tile_map) current_tile_map->draw();
 

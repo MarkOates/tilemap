@@ -19,6 +19,7 @@ public:
 
    TileMap *create_forest_tile_map();
    TileMap *create_zoria_tile_map();
+   TileMap *create_zoria_grass_map();
 };
 
 
