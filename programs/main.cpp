@@ -17,6 +17,10 @@ public:
       : tile_map_factory()
       , current_tile_map(tile_map_factory.create_zoria_tile_map())
    {
+   }
+
+   void render_scene()
+   {
       ALLEGRO_BITMAP *bitmap = al_get_backbuffer(al_get_current_display());
       ALLEGRO_TRANSFORM trans;
       al_identity_transform(&trans);
@@ -25,10 +29,11 @@ public:
 
       al_set_target_bitmap(bitmap);
       al_use_projection_transform(&trans);
-   }
+      al_clear_to_color(color::pink);
 
-   void initializer()
-   {
+      if (current_tile_map) current_tile_map->draw();
+
+      al_flip_display();
    }
 
    void process_event(ALLEGRO_EVENT &event) override
@@ -36,9 +41,7 @@ public:
       switch(event.type)
       {
       case ALLEGRO_EVENT_TIMER:
-         al_clear_to_color(color::pink);
-         if (current_tile_map) current_tile_map->draw();
-         al_flip_display();
+         render_scene();
          break;
       default:
          std::cout << "Event << " << std::endl;
