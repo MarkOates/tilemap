@@ -76,6 +76,8 @@ TileMap *TileMapFactory::create_zoria_grass_map()
 
    draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 2, 2, 10, 5);
 
+   draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 0, 0, 16*2-1, 9*2-1);
+
    return tile_map;
 }
 

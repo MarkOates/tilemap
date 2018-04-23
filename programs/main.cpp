@@ -50,9 +50,7 @@ public:
       ALLEGRO_BITMAP *bitmap = al_get_backbuffer(al_get_current_display());
       ALLEGRO_TRANSFORM trans;
       al_identity_transform(&trans);
-      al_orthographic_transform(&trans, 0, 0, -1.0, al_get_bitmap_width(bitmap)/5,
-            al_get_bitmap_height(bitmap)/5, 1.0);
-
+      al_orthographic_transform(&trans, 0, 0, -1.0, al_get_bitmap_width(bitmap)/5, al_get_bitmap_height(bitmap)/5, 1.0);
       al_set_target_bitmap(bitmap);
       al_use_projection_transform(&trans);
       al_clear_to_color(color::hex("73ce26"));
