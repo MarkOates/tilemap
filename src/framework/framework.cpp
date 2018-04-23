@@ -26,7 +26,7 @@ Framework::Framework()
 
    if (master_event_queue) throw std::runtime_error("duplicate calling of Framework");
    master_event_queue = al_create_event_queue();
-   display = al_create_display(1280, 720);
+   display = al_create_display(1280 / 5 * 7, 720 / 5 * 7);
    timer = al_create_timer(ALLEGRO_BPS_TO_SECS(60));
 
    if (!al_install_keyboard()) throw std::runtime_error("al_install_keyboard() failed.");

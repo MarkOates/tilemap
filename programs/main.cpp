@@ -3,6 +3,7 @@
 #include <framework/color.hpp>
 #include <framework/framework.hpp>
 #include <framework/placement2d.hpp>
+#include <tilemap/sprite.hpp>
 #include <tilemap/tile_map.hpp>
 #include <tilemap/tile_map_factory.hpp>
 
@@ -10,13 +11,38 @@
 class Project : public Screen
 {
 public:
+   ElementID sprite_root;
    TileMapFactory tile_map_factory;
+   Placement2D camera;
    TileMap *current_tile_map;
 
    Project()
       : tile_map_factory()
+      , sprite_root(nullptr)
       , current_tile_map(tile_map_factory.create_zoria_grass_map())
+      , camera()
    {
+      (new Sprite(&sprite_root))->set("player");
+   }
+
+   Sprite *player_sprite()
+   {
+      return static_cast<Sprite *>(sprite_root.find_first("player"));
+   };
+
+   std::vector<Sprite *> all_sprites_y_sorted()
+   {
+      std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
+      std::sort(sprites.begin(), sprites.end(),[](const Sprite *a, const Sprite *b) {
+            return a->placement.position.y < b->placement.position.y;
+         });
+      return sprites;
+   };
+
+   void update_scene()
+   {
+      std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
+      for (auto &sprite : sprites) sprite->placement += sprite->velocity;
    }
 
    void render_scene()
@@ -31,7 +57,13 @@ public:
       al_use_projection_transform(&trans);
       al_clear_to_color(color::hex("73ce26"));
 
-      if (current_tile_map) current_tile_map->draw();
+      if (current_tile_map)
+      {
+         camera.start_transform();
+         current_tile_map->draw();
+         for (auto sprite : all_sprites_y_sorted()) sprite->draw();
+         camera.restore_transform();
+      }
 
       al_flip_display();
    }
@@ -41,10 +73,43 @@ public:
       switch(event.type)
       {
       case ALLEGRO_EVENT_TIMER:
+         update_scene();
          render_scene();
          break;
+      case ALLEGRO_EVENT_KEY_DOWN:
+         switch (event.keyboard.keycode)
+         {
+         case ALLEGRO_KEY_UP:
+            player_sprite()->velocity.y = -2;
+            break;
+         case ALLEGRO_KEY_DOWN:
+            player_sprite()->velocity.y = 2;
+            break;
+         case ALLEGRO_KEY_LEFT:
+            player_sprite()->velocity.x = -2;
+            break;
+         case ALLEGRO_KEY_RIGHT:
+            player_sprite()->velocity.x = 2;
+            break;
+         }
+         break;
+      case ALLEGRO_EVENT_KEY_UP:
+         switch (event.keyboard.keycode)
+         {
+         case ALLEGRO_KEY_UP:
+         case ALLEGRO_KEY_DOWN:
+            player_sprite()->velocity.y = 0;
+            break;
+         case ALLEGRO_KEY_LEFT:
+         case ALLEGRO_KEY_RIGHT:
+            player_sprite()->velocity.x = 0;
+            break;
+         }
+         break;
+      case ALLEGRO_EVENT_KEY_CHAR:
+         break;
       default:
-         std::cout << "Event << " << std::endl;
+         std::cout << "Unrecognized Event << " << std::endl;
          break;
       }
    }

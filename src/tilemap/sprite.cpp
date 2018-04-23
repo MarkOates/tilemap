@@ -5,9 +5,10 @@
 #include <tilemap/sprite.hpp>
 
 
-Sprite::Sprite()
-   : placement()
-   , velocity()
+Sprite::Sprite(ElementID *parent)
+   : ElementID(parent)
+   , placement(0, 0, 16, 16)
+   , velocity(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
    , bitmap(nullptr)
 {
 }
