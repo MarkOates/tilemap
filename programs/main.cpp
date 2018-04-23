@@ -41,6 +41,7 @@ public:
 
    void update_scene()
    {
+      // continue next in here
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
       for (auto &sprite : sprites) sprite->placement += sprite->velocity;
    }
