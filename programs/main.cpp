@@ -22,12 +22,12 @@ public:
       , current_tile_map(tile_map_factory.create_zoria_grass_map())
       , camera()
    {
-      (new Sprite(&sprite_root))->set("player");
+      (new Sprite(&sprite_root))->set("player_controlled");
    }
 
-   Sprite *player_sprite()
+   Sprite *player_controlled_sprite()
    {
-      return static_cast<Sprite *>(sprite_root.find_first("player"));
+      return static_cast<Sprite *>(sprite_root.find_first("player_controlled"));
    };
 
    std::vector<Sprite *> all_sprites_y_sorted()
@@ -80,16 +80,16 @@ public:
          switch (event.keyboard.keycode)
          {
          case ALLEGRO_KEY_UP:
-            player_sprite()->velocity.y = -2;
+            player_controlled_sprite()->velocity.y = -2;
             break;
          case ALLEGRO_KEY_DOWN:
-            player_sprite()->velocity.y = 2;
+            player_controlled_sprite()->velocity.y = 2;
             break;
          case ALLEGRO_KEY_LEFT:
-            player_sprite()->velocity.x = -2;
+            player_controlled_sprite()->velocity.x = -2;
             break;
          case ALLEGRO_KEY_RIGHT:
-            player_sprite()->velocity.x = 2;
+            player_controlled_sprite()->velocity.x = 2;
             break;
          }
          break;
@@ -98,11 +98,11 @@ public:
          {
          case ALLEGRO_KEY_UP:
          case ALLEGRO_KEY_DOWN:
-            player_sprite()->velocity.y = 0;
+            player_controlled_sprite()->velocity.y = 0;
             break;
          case ALLEGRO_KEY_LEFT:
          case ALLEGRO_KEY_RIGHT:
-            player_sprite()->velocity.x = 0;
+            player_controlled_sprite()->velocity.x = 0;
             break;
          }
          break;
