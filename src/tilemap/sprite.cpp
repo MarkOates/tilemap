@@ -7,10 +7,11 @@
 
 Sprite::Sprite(ElementID *parent)
    : ElementID(parent)
-   , placement(0, 0, 16, 16)
+   , placement(32*3, 32*3, 48, 48)
    , velocity(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
    , bitmap(nullptr)
 {
+   placement.align = vec2d(0, 0);
 }
 
 

@@ -35,7 +35,7 @@ INDIVIDUAL_TEST_EXECUTABLES := $(TEST_SOURCES:tests/%.cpp=bin/tests/%)
 
 
 
-bin/main: programs/main.cpp $(OBJECTS)
+bin/collision: programs/collision.cpp $(OBJECTS)
 	g++ -std=gnu++11 $(OBJECTS) $< -o $@ $(ALLEGRO_LIBS) -L$(ALLEGRO_DIR)/lib $(OPENGL_LIB) -I$(ALLEGRO_DIR)/include -I./include
 
 
