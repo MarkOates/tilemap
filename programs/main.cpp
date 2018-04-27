@@ -5,6 +5,7 @@
 #include <framework/placement2d.hpp>
 #include <tilemap/sprite.hpp>
 #include <tilemap/tile_map.hpp>
+#include <tilemap/tile_map_collision_response.hpp>
 #include <tilemap/tile_map_factory.hpp>
 
 
@@ -15,13 +16,16 @@ public:
    TileMapFactory tile_map_factory;
    Placement2D camera;
    TileMap *current_tile_map;
+   ALLEGRO_BITMAP *fire_tile;
 
    Project()
       : tile_map_factory()
       , sprite_root(nullptr)
       , current_tile_map(tile_map_factory.create_zoria_grass_map())
       , camera()
+      , fire_tile(al_load_bitmap("bitmaps/tiles/tile.png"))
    {
+      if (!fire_tile) throw std::runtime_error("no fire");
       (new Sprite(&sprite_root))->set("player_controlled");
    }
 
@@ -43,7 +47,7 @@ public:
    {
       // continue next in here
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
-      for (auto &sprite : sprites) sprite->placement += sprite->velocity;
+      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(fire_tile);
    }
 
    void render_scene()
