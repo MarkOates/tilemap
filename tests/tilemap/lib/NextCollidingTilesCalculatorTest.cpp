@@ -2,18 +2,18 @@
 
 #include <gtest/gtest.h>
 
-#include <tilemap/lib/NextCollidingTileCalculator.hpp>
+#include <tilemap/lib/NextCollidingTilesCalculatorTest.hpp>
 
 
-TEST(NextCollidingTileCalculatorTest, can_be_created)
+TEST(NextCollidingTilesCalculatorTest, can_be_created)
 {
-   NextCollidingTileCalculator calculator;
+   NextCollidingTilesCalculator calculator;
 }
 
 
-TEST(NextCollidingTileCalculatorTest, get_ordered_item__returns_the_expected_sorted_item)
+TEST(NextCollidingTilesCalculatorTest, next_colliding_tiles__returns_a_list_of_tiles_that_are_expected_to_collide_in_the_next_step)
 {
-   NextCollidingTileCalculator calculator;
+   NextCollidingTilesCalculator calculator;
 }
 
 
