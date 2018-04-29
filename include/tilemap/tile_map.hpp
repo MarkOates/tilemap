@@ -18,6 +18,9 @@ public:
 
    void set_tile(int x, int y, ALLEGRO_BITMAP *tile);
    void set_width_and_height(int width, int height);
+
+   ALLEGRO_BITMAP *get_tile(int x, int y);
+
    void draw();
 
    bool is_in_bounds(int x, int y);

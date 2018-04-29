@@ -82,3 +82,15 @@ TileMap *TileMapFactory::create_zoria_grass_map()
 }
 
 
+std::set<ALLEGRO_BITMAP *> TileMapFactory::get_zoria_solids()
+{
+   std::set<int> solid_tile_indexes = { 4*32+1, 4*32+1, 3*32+3, 3*32+3, 2*32, 2*32+1, 3*32, 3*32+1 };
+   std::set<ALLEGRO_BITMAP *> solid_bitmaps;
+
+   for (auto &solid_tile_index : solid_tile_indexes)
+      solid_bitmaps.insert(zoria_tiles_sprite_sheet.get_sprite(solid_tile_index));
+
+   return solid_bitmaps;
+}
+
+

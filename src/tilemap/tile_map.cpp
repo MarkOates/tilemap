@@ -33,6 +33,13 @@ void TileMap::set_width_and_height(int width, int height)
 }
 
 
+ALLEGRO_BITMAP *TileMap::get_tile(int x, int y)
+{
+   if (is_out_of_bounds(x, y)) return nullptr;
+   return tiles[y*width+x];
+}
+
+
 void TileMap::draw()
 {
    for (int y=0; y<height; y++)

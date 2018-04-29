@@ -23,12 +23,14 @@ public:
    TileMapFactory tile_map_factory;
    Placement2D camera;
    TileMap *current_tile_map;
+   std::set<ALLEGRO_BITMAP *> solid_tiles;
 
    Project()
       : tile_map_factory()
       , sprite_root(nullptr)
       , current_tile_map(tile_map_factory.create_zoria_grass_map())
       , camera()
+      , solid_tiles(tile_map_factory.get_zoria_solids())
    {
       (new Sprite(&sprite_root))->set("player_controlled");
    }
@@ -51,7 +53,7 @@ public:
    {
       // continue next in here
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
-      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide);
+      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide, &solid_tiles);
    }
 
    void render_scene()
