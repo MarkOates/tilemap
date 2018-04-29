@@ -11,8 +11,7 @@
 
 bool on_collide(TileMap *tile_map, Sprite *sprite, vec2i tile_coordinate, TileMapCollisionResponse::direction_t direction_of_collision, void *data)
 {
-   ALLEGRO_BITMAP *fire_tile = (ALLEGRO_BITMAP *)data;
-   tile_map->set_tile(tile_coordinate.x, tile_coordinate.y, fire_tile);
+   tile_map->set_tile(tile_coordinate.x, tile_coordinate.y, nullptr);
    return true;
 }
 
@@ -24,16 +23,13 @@ public:
    TileMapFactory tile_map_factory;
    Placement2D camera;
    TileMap *current_tile_map;
-   ALLEGRO_BITMAP *fire_tile;
 
    Project()
       : tile_map_factory()
       , sprite_root(nullptr)
       , current_tile_map(tile_map_factory.create_zoria_grass_map())
       , camera()
-      , fire_tile(al_load_bitmap("bitmaps/tiles/tile.png"))
    {
-      if (!fire_tile) throw std::runtime_error("no fire");
       (new Sprite(&sprite_root))->set("player_controlled");
    }
 
@@ -55,7 +51,7 @@ public:
    {
       // continue next in here
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
-      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide, fire_tile);
+      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide);
    }
 
    void render_scene()
