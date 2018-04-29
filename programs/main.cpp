@@ -11,7 +11,39 @@
 
 bool on_collide(TileMap *tile_map, Sprite *sprite, vec2i tile_coordinate, TileMapCollisionResponse::direction_t direction_of_collision, void *data)
 {
-   tile_map->set_tile(tile_coordinate.x, tile_coordinate.y, nullptr);
+   if (!data) return true;
+   std::set<ALLEGRO_BITMAP *> *solid_tiles = static_cast<std::set<ALLEGRO_BITMAP *> *>(data);
+   ALLEGRO_BITMAP *collided_tile = tile_map->get_tile(tile_coordinate.x, tile_coordinate.y);
+
+   const bool is_solid_tile = solid_tiles->find(collided_tile) != solid_tiles->end();
+
+   if (is_solid_tile)
+   {
+      switch(direction_of_collision)
+      {
+      case TileMapCollisionResponse::SPRITE_MOVING_UP:
+         sprite->velocity.y = 0;
+         sprite->placement.y = (tile_coordinate.y * 16) + 16;
+         break;
+      case TileMapCollisionResponse::SPRITE_MOVING_DOWN:
+         sprite->velocity.y = 0;
+         sprite->placement.y = (tile_coordinate.y * 16) - sprite->placement.size.y;
+         break;
+      case TileMapCollisionResponse::SPRITE_MOVING_LEFT:
+         sprite->velocity.x = 0;
+         sprite->placement.x = (tile_coordinate.x * 16) + 16;
+         break;
+      case TileMapCollisionResponse::SPRITE_MOVING_RIGHT:
+         sprite->velocity.x = 0;
+         sprite->placement.x = (tile_coordinate.x * 16) - sprite->placement.size.x;
+         break;
+      }
+   }
+   else
+   {
+      tile_map->set_tile(tile_coordinate.x, tile_coordinate.y, nullptr);
+   }
+
    return true;
 }
 
