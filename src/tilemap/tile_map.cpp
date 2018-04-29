@@ -37,7 +37,10 @@ void TileMap::draw()
 {
    for (int y=0; y<height; y++)
       for (int x=0; x<width; x++)
-         al_draw_bitmap(tiles[y * width + x], x*tile_width, y*tile_width, 0);
+      {
+         ALLEGRO_BITMAP *tile = tiles[y * width + x];
+         if (tile) al_draw_bitmap(tile, x*tile_width, y*tile_width, 0);
+      }
 }
 
 
