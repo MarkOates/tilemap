@@ -9,6 +9,14 @@
 #include <tilemap/tile_map_factory.hpp>
 
 
+bool on_collide(TileMap *tile_map, Sprite *sprite, vec2i tile_coordinate, TileMapCollisionResponse::direction_t direction_of_collision, void *data)
+{
+   ALLEGRO_BITMAP *fire_tile = (ALLEGRO_BITMAP *)data;
+   tile_map->set_tile(tile_coordinate.x, tile_coordinate.y, fire_tile);
+   return true;
+}
+
+
 class Project : public Screen
 {
 public:
@@ -47,7 +55,7 @@ public:
    {
       // continue next in here
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
-      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(fire_tile);
+      for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide, fire_tile);
    }
 
    void render_scene()

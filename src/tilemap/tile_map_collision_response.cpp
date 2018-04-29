@@ -19,7 +19,7 @@ TileMapCollisionResponse::~TileMapCollisionResponse()
 }
 
 
-void TileMapCollisionResponse::process(ALLEGRO_BITMAP *fire_tile)
+void TileMapCollisionResponse::process(bool (*on_collide)(TileMap *tile, Sprite *sprite, vec2i tile_coordinate, TileMapCollisionResponse::direction_t direction_of_collision, void *data), void *data)
 {
    NextCollidingTilesCalculator horizontal_calculator(
          NextCollidingTilesCalculator::X_AXIS,
@@ -32,6 +32,8 @@ void TileMapCollisionResponse::process(ALLEGRO_BITMAP *fire_tile)
       );
 
    std::vector<vec2i> horizontal_colliding_tiles = horizontal_calculator.next_colliding_tiles();
+   TileMapCollisionResponse::direction_t sprite_horizontal_direction_of_travel = sprite->velocity.x > 0.0 ? SPRITE_MOVING_RIGHT : SPRITE_MOVING_LEFT;
+   for (auto &tile : horizontal_colliding_tiles) on_collide(tile_map, sprite, tile, sprite_horizontal_direction_of_travel, data);
    sprite->placement.x += sprite->velocity.x;
 
    NextCollidingTilesCalculator vertical_calculator(
@@ -45,10 +47,9 @@ void TileMapCollisionResponse::process(ALLEGRO_BITMAP *fire_tile)
       );
 
    std::vector<vec2i> vertically_colliding_tiles = vertical_calculator.next_colliding_tiles();
+   TileMapCollisionResponse::direction_t sprite_vertical_direction_of_travel = sprite->velocity.y > 0.0 ? SPRITE_MOVING_DOWN : SPRITE_MOVING_UP;
+   for (auto &tile : vertically_colliding_tiles) on_collide(tile_map, sprite, tile, sprite_vertical_direction_of_travel, data);
    sprite->placement.y += sprite->velocity.y;
-
-   for (auto &tile : horizontal_colliding_tiles) tile_map->set_tile(tile.x, tile.y, fire_tile);
-   for (auto &tile : vertically_colliding_tiles) tile_map->set_tile(tile.x, tile.y, fire_tile);
 }
 
 
