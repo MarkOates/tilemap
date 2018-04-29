@@ -7,7 +7,7 @@
 
 Sprite::Sprite(ElementID *parent)
    : ElementID(parent)
-   , placement(32*3, 32*3, 48, 48)
+   , placement(32*3, 32*3, 16, 16)
    , velocity(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
    , bitmap(nullptr)
 {
