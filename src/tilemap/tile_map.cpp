@@ -44,3 +44,17 @@ void TileMap::draw()
 }
 
 
+bool TileMap::is_in_bounds(int x, int y)
+{
+   if (x < 0 || x >= width) return false;
+   if (y < 0 || y >= height) return false;
+   return true;
+}
+
+
+bool TileMap::is_out_of_bounds(int x, int y)
+{
+   return !is_in_bounds(x, y);
+}
+
+
