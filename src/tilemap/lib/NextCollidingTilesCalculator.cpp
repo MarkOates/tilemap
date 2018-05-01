@@ -62,15 +62,16 @@ std::vector<vec2i> NextCollidingTilesCalculator::next_colliding_tiles()
 
 
    // if moving right, test along the right edge
+   float padding = 0.0001;
    if (velocity_amt > 0.0) // moving right
    {
-      now_x += size_of_body - 0.00001;
-      next_x += size_of_body - 0.00001;
+      now_x += size_of_body - padding;
+      next_x += size_of_body - padding;
    }
    else
    {
-      now_x += 0.00001;
-      next_x += 0.00001;
+      now_x += padding;
+      next_x += padding;
    }
 
    int column_x_now = now_x / 16;
