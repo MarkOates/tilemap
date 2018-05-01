@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 
-class TileMatrixMatcher
+class TileNeighborMatcher
 {
 private:
    // 0 == does not matter
@@ -15,8 +15,8 @@ private:
 
 public:
 
-   TileMatrixMatcher();
-   ~TileMatrixMatcher();
+   TileNeighborMatcher();
+   ~TileNeighborMatcher();
 
    const int top_left[3][3] =     { { _, 2, _ },
                                     { 2, 1, 1 },

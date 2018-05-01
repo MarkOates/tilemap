@@ -2,18 +2,18 @@
 
 #include <gtest/gtest.h>
 
-#include <tilemap/lib/TileMatrixMatcher.hpp>
+#include <tilemap/lib/TileNeighborMatcher.hpp>
 
 
-TEST(TileMatrixMatcherTest, can_be_created_without_arguments)
+TEST(TileNeighborMatcherTest, can_be_created_without_arguments)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 }
 
 
-TEST(TileMatrixMatcherTest, match__returns_true_when_given_a_tile_context_and_a_filter_matches)
+TEST(TileNeighborMatcherTest, match__returns_true_when_given_a_tile_context_and_a_filter_matches)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 
    int my_tile_context_matrix[3][3] = { { 12, 32,  8 },
                                         { 32, 32, 11 },
@@ -23,9 +23,9 @@ TEST(TileMatrixMatcherTest, match__returns_true_when_given_a_tile_context_and_a_
 }
 
 
-TEST(TileMatrixMatcherTest, match__returns_false_when_given_a_tile_context_and_a_filter_does_not_match)
+TEST(TileNeighborMatcherTest, match__returns_false_when_given_a_tile_context_and_a_filter_does_not_match)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 
    int my_tile_context_matrix[3][3] = { { 12, 32,  8 },
                                         { 32, 32, 32 },
@@ -35,9 +35,9 @@ TEST(TileMatrixMatcherTest, match__returns_false_when_given_a_tile_context_and_a
 }
 
 
-TEST(TileMatrixMatcherTest, match__with_a_matcher_matrix_values_of_0_allows_any_tile)
+TEST(TileNeighborMatcherTest, match__with_a_matcher_matrix_values_of_0_allows_any_tile)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 
    int matcher[3][3] = { { 0, 0, 0 },
                          { 0, 0, 0 },
@@ -53,9 +53,9 @@ TEST(TileMatrixMatcherTest, match__with_a_matcher_matrix_values_of_0_allows_any_
 }
 
 
-TEST(TileMatrixMatcherTest, match__with_a_matcher_matrix_values_of_1_must_match_the_expected_tiles)
+TEST(TileNeighborMatcherTest, match__with_a_matcher_matrix_values_of_1_must_match_the_expected_tiles)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 
    int matcher[3][3] = { { 1, 0, 0 },
                          { 0, 1, 0 },
@@ -71,9 +71,9 @@ TEST(TileMatrixMatcherTest, match__with_a_matcher_matrix_values_of_1_must_match_
 }
 
 
-TEST(TileMatrixMatcherTest, match__with_a_matcher_matrix_values_of_2_must_mismatch_the_expected_tiles)
+TEST(TileNeighborMatcherTest, match__with_a_matcher_matrix_values_of_2_must_mismatch_the_expected_tiles)
 {
-   TileMatrixMatcher filter_matcher;
+   TileNeighborMatcher filter_matcher;
 
    int matcher[3][3] = { { 2, 0, 0 },
                          { 0, 2, 0 },
