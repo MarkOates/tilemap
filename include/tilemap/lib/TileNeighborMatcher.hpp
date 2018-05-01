@@ -10,7 +10,6 @@ private:
    // 0 == does not matter
    // 1 == must be same
    // 2 == must be different
-   // the center tile is the tile being evaluated question
    const int _ = 0;
 
 public:
