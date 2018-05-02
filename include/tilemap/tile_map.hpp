@@ -21,12 +21,12 @@ public:
 
    int get_height() const;
    int get_width() const;
-   ALLEGRO_BITMAP *get_tile(int x, int y);
+   ALLEGRO_BITMAP *get_tile(int x, int y) const;
 
    void draw();
 
-   bool is_in_bounds(int x, int y);
-   bool is_out_of_bounds(int x, int y);
+   bool is_in_bounds(int x, int y) const;
+   bool is_out_of_bounds(int x, int y) const;
 };
 
 

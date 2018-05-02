@@ -45,7 +45,7 @@ int TileMap::get_width() const
 }
 
 
-ALLEGRO_BITMAP *TileMap::get_tile(int x, int y)
+ALLEGRO_BITMAP *TileMap::get_tile(int x, int y) const
 {
    if (is_out_of_bounds(x, y)) return nullptr;
    return tiles[y*width+x];
@@ -63,7 +63,7 @@ void TileMap::draw()
 }
 
 
-bool TileMap::is_in_bounds(int x, int y)
+bool TileMap::is_in_bounds(int x, int y) const
 {
    if (x < 0 || x >= width) return false;
    if (y < 0 || y >= height) return false;
@@ -71,7 +71,7 @@ bool TileMap::is_in_bounds(int x, int y)
 }
 
 
-bool TileMap::is_out_of_bounds(int x, int y)
+bool TileMap::is_out_of_bounds(int x, int y) const
 {
    return !is_in_bounds(x, y);
 }
