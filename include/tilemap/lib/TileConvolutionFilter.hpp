@@ -16,7 +16,7 @@ public:
    TileConvolutionFilter(const std::vector<ALLEGRO_BITMAP *> tile_set, const TileMap *source_tilemap, TileMap *destination_tilemap);
    ~TileConvolutionFilter();
 
-   void process();
+   void process(ALLEGRO_BITMAP *source_comparison_tile);
 };
 
 
