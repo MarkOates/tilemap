@@ -34,9 +34,9 @@ inline static int m(const TileMap *tile_map, int x, int y, ALLEGRO_BITMAP *tile_
 
 void TileConvolutionFilter::process(ALLEGRO_BITMAP *source_comparison_tile)
 {
-   if (!destination_tilemap) std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr destinaion_tilemap.");
-   if (!source_tilemap) std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr destinaion_tilemap.");
-   if (tile_set.size() != 16) std::runtime_error("Cannot TileConvolutionFilter::process(), expecting tile_set.size() to == 16.");
+   if (!destination_tilemap) throw std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr destination_tilemap.");
+   if (!source_tilemap) throw std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr source_tilemap.");
+   if (tile_set.size() != 16) throw std::runtime_error("Cannot TileConvolutionFilter::process(), expecting tile_set.size() to == 16.");
 
    TileNeighborMatcher tile_neighbor_matcher;
    int width = source_tilemap->get_width();
