@@ -30,16 +30,18 @@ void TileMap::set_width_and_height(int width, int height)
 {
    tiles.clear();
    tiles.resize(width * height, nullptr);
+   this->width = width;
+   this->height = height;
 }
 
 
-int TileMap::get_height() const
+int TileMap::get_width() const
 {
    return width;
 }
 
 
-int TileMap::get_width() const
+int TileMap::get_height() const
 {
    return height;
 }

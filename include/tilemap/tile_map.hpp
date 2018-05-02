@@ -19,8 +19,8 @@ public:
    void set_tile(int x, int y, ALLEGRO_BITMAP *tile);
    void set_width_and_height(int width, int height);
 
-   int get_height() const;
    int get_width() const;
+   int get_height() const;
    ALLEGRO_BITMAP *get_tile(int x, int y) const;
 
    void draw();
