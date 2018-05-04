@@ -15,6 +15,7 @@ private:
    SpriteSheet forest_tiles_sprite_sheet;
    SpriteSheet zoria_tiles_sprite_sheet;
    SixteenEdgeTileSet zoria_grass_16_tileset;
+   SixteenEdgeTileSet zoria_wall_16_tileset;
 
 public:
    TileMapFactory();

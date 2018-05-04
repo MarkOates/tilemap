@@ -8,7 +8,7 @@
 
 TileMapFactory::TileMapFactory()
    : forest_tiles_sprite_sheet(al_load_bitmap("bitmaps/tiles/foresttiles.gif")) // note, this foresttiles bitmap dangles
-   , zoria_tiles_sprite_sheet(al_load_bitmap("bitmaps/tiles/tiles.png")) // note, this foresttiles bitmap dangles
+   , zoria_tiles_sprite_sheet(al_load_bitmap("bitmaps/tiles/tiles-modified-01.png")) // note, this foresttiles bitmap dangles
    , zoria_grass_16_tileset(
          zoria_tiles_sprite_sheet.get_sprite(4+0 + 8*32),
          zoria_tiles_sprite_sheet.get_sprite(4+1 + 8*32),
@@ -26,6 +26,24 @@ TileMapFactory::TileMapFactory()
          zoria_tiles_sprite_sheet.get_sprite(4+1 + 11*32),
          zoria_tiles_sprite_sheet.get_sprite(4+2 + 11*32),
          zoria_tiles_sprite_sheet.get_sprite(4+3 + 11*32)
+      )
+   , zoria_wall_16_tileset(
+         zoria_tiles_sprite_sheet.get_sprite(0 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(1 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(2 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(3 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(0 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(1 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(2 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(3 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(0 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(1 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(2 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(3 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(0 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(1 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(2 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(3 + 11*32)
       )
 {
 }
@@ -119,18 +137,32 @@ TileMap *TileMapFactory::create_zoria_processed_map()
 {
    const int MAP_HEIGHT = 9*2;
    const int MAP_WIDTH = 16*2;
-   ALLEGRO_BITMAP *writers_tile = zoria_grass_16_tileset.get_center_tile();
+   ALLEGRO_BITMAP *grass_writers_tile = zoria_grass_16_tileset.get_full_tile();
+   ALLEGRO_BITMAP *wall_writers_tile = zoria_wall_16_tileset.get_full_tile();
 
    TileMap *creators_map = new TileMap(MAP_WIDTH, MAP_HEIGHT, 16);
-   TileMap *result_map = new TileMap(0, 0, 16);
+   TileMap *result_map = new TileMap(MAP_WIDTH, MAP_HEIGHT, 16);
 
-   draw_rectangle(creators_map, writers_tile, 2, 2, 10, 5);
+   // write the grass
+   draw_rectangle(creators_map, grass_writers_tile, 3, 4, 10, 5);
+   draw_rectangle(creators_map, grass_writers_tile, 3, 4, 3, 7);
 
-   TileConvolutionFilter filter(zoria_grass_16_tileset.get_set(), creators_map, result_map);
-   filter.process(writers_tile);
+   TileMapConvolutionFilter grass_filter(zoria_grass_16_tileset.get_set(), creators_map, result_map);
+   grass_filter.process(grass_writers_tile);
 
-   //delete creators_map;
-   return creators_map;
+   // write the wall
+   draw_rectangle(creators_map, wall_writers_tile, 2, 3, 15, 8);
+   // remove some wall ties in the bottom
+   creators_map->set_tile(8, 8, nullptr);
+   creators_map->set_tile(9, 8, nullptr);
+   creators_map->set_tile(10, 8, nullptr);
+   creators_map->set_tile(11, 8, nullptr);
+
+   TileMapConvolutionFilter wall_filter(zoria_wall_16_tileset.get_set(), creators_map, result_map);
+   wall_filter.process(wall_writers_tile);
+
+   delete creators_map;
+   return result_map;
 }
 
 
