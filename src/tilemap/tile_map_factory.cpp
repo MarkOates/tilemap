@@ -2,7 +2,7 @@
 
 #include <tilemap/tile_map_factory.hpp>
 
-#include <tilemap/lib/TileConvolutionFilter.hpp>
+#include <tilemap/lib/TileMapConvolutionFilter.hpp>
 #include <tilemap/tile_map.hpp>
 
 

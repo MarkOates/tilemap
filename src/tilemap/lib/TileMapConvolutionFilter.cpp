@@ -1,12 +1,12 @@
 
 
-#include <tilemap/lib/TileConvolutionFilter.hpp>
+#include <tilemap/lib/TileMapConvolutionFilter.hpp>
 
 #include <tilemap/lib/TileNeighborMatcher.hpp>
 #include <iostream>
 
 
-TileConvolutionFilter::TileConvolutionFilter(const std::vector<ALLEGRO_BITMAP *> tile_set, const TileMap *source_tilemap, TileMap *destination_tilemap)
+TileMapConvolutionFilter::TileMapConvolutionFilter(const std::vector<ALLEGRO_BITMAP *> tile_set, const TileMap *source_tilemap, TileMap *destination_tilemap)
    : tile_set(tile_set)
    , source_tilemap(source_tilemap)
    , destination_tilemap(destination_tilemap)
@@ -14,7 +14,7 @@ TileConvolutionFilter::TileConvolutionFilter(const std::vector<ALLEGRO_BITMAP *>
 }
 
 
-TileConvolutionFilter::~TileConvolutionFilter()
+TileMapConvolutionFilter::~TileMapConvolutionFilter()
 {
 }
 
@@ -32,17 +32,17 @@ inline static int m(const TileMap *tile_map, int x, int y, ALLEGRO_BITMAP *tile_
 }
 
 
-void TileConvolutionFilter::process(ALLEGRO_BITMAP *source_comparison_tile)
+void TileMapConvolutionFilter::process(ALLEGRO_BITMAP *source_comparison_tile)
 {
-   if (!destination_tilemap) throw std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr destination_tilemap.");
-   if (!source_tilemap) throw std::runtime_error("Cannot TileConvolutionFilter::process() on a nullptr source_tilemap.");
-   if (tile_set.size() != 16) throw std::runtime_error("Cannot TileConvolutionFilter::process(), expecting tile_set.size() to == 16.");
+   if (!destination_tilemap) throw std::runtime_error("Cannot TileMapConvolutionFilter::process() on a nullptr destination_tilemap.");
+   if (!source_tilemap) throw std::runtime_error("Cannot TileMapConvolutionFilter::process() on a nullptr source_tilemap.");
+   if (tile_set.size() != 16) throw std::runtime_error("Cannot TileMapConvolutionFilter::process(), expecting tile_set.size() to == 16.");
+   if (destination_tilemap->get_width() != source_tilemap->get_width() || destination_tilemap->get_height() != source_tilemap->get_height())
+      throw std::runtime_error("TileMapConvolutionFilter::process(), Width and height must match between source_tilemap and destination_tilemap");
 
    TileNeighborMatcher tile_neighbor_matcher;
    int width = source_tilemap->get_width();
    int height = source_tilemap->get_height();
-
-   destination_tilemap->set_width_and_height(width, height);
 
    ALLEGRO_BITMAP *TOP_LEFT     = tile_set[0];
    ALLEGRO_BITMAP *TOP          = tile_set[1];
