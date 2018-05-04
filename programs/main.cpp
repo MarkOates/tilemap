@@ -60,7 +60,7 @@ public:
    Project()
       : tile_map_factory()
       , sprite_root(nullptr)
-      , current_tile_map(tile_map_factory.create_zoria_grass_map())
+      , current_tile_map(tile_map_factory.create_zoria_processed_map())
       , camera()
       , solid_tiles(tile_map_factory.get_zoria_solids())
    {
