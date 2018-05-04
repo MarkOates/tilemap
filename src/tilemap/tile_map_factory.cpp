@@ -2,12 +2,31 @@
 
 #include <tilemap/tile_map_factory.hpp>
 
+#include <tilemap/lib/TileConvolutionFilter.hpp>
 #include <tilemap/tile_map.hpp>
 
 
 TileMapFactory::TileMapFactory()
    : forest_tiles_sprite_sheet(al_load_bitmap("bitmaps/tiles/foresttiles.gif")) // note, this foresttiles bitmap dangles
    , zoria_tiles_sprite_sheet(al_load_bitmap("bitmaps/tiles/tiles.png")) // note, this foresttiles bitmap dangles
+   , zoria_grass_16_tileset(
+         zoria_tiles_sprite_sheet.get_sprite(4+0 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+1 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+2 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+3 + 8*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+0 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+1 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+2 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+3 + 9*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+0 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+1 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+2 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+3 + 10*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+0 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+1 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+2 + 11*32),
+         zoria_tiles_sprite_sheet.get_sprite(4+3 + 11*32)
+      )
 {
 }
 
@@ -45,7 +64,7 @@ TileMap *TileMapFactory::create_zoria_tile_map()
 }
 
 
-void draw_barrier(TileMap *tile_map, SpriteSheet *sprite_sheet, int x, int y, int x2, int y2)
+static void draw_barrier(TileMap *tile_map, SpriteSheet *sprite_sheet, int x, int y, int x2, int y2)
 {
    for (int xx=x; xx<=x2; xx++) tile_map->set_tile(xx, y, sprite_sheet->get_sprite(4*32+1)); // top
    for (int xx=x; xx<=x2; xx++) tile_map->set_tile(xx, y2, sprite_sheet->get_sprite(4*32+1)); // bottom
@@ -56,6 +75,20 @@ void draw_barrier(TileMap *tile_map, SpriteSheet *sprite_sheet, int x, int y, in
    tile_map->set_tile(x2, y, sprite_sheet->get_sprite(2*32+1)); // top right
    tile_map->set_tile(x, y2, sprite_sheet->get_sprite(3*32)); // bottom left
    tile_map->set_tile(x2, y2, sprite_sheet->get_sprite(3*32+1)); // bottom right
+}
+
+
+static void draw_rectangle(TileMap *tile_map, ALLEGRO_BITMAP *tile, int x, int y, int x2, int y2)
+{
+   for (int xx=x; xx<=x2; xx++) tile_map->set_tile(xx, y, tile); // top
+   for (int xx=x; xx<=x2; xx++) tile_map->set_tile(xx, y2, tile); // bottom
+   for (int yy=y; yy<=y2; yy++) tile_map->set_tile(x, yy, tile); // left
+   for (int yy=y; yy<=y2; yy++) tile_map->set_tile(x2, yy, tile); // right
+
+   tile_map->set_tile(x, y, tile); // top left
+   tile_map->set_tile(x2, y, tile); // top right
+   tile_map->set_tile(x, y2, tile); // bottom left
+   tile_map->set_tile(x2, y2, tile); // bottom right
 }
 
 
@@ -79,6 +112,25 @@ TileMap *TileMapFactory::create_zoria_grass_map()
    draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 0, 0, 16*2-1, 9*2-1);
 
    return tile_map;
+}
+
+
+TileMap *TileMapFactory::create_zoria_processed_map()
+{
+   const int MAP_HEIGHT = 9*2;
+   const int MAP_WIDTH = 16*2;
+   ALLEGRO_BITMAP *writers_tile = zoria_grass_16_tileset.get_center_tile();
+
+   TileMap *creators_map = new TileMap(MAP_WIDTH, MAP_HEIGHT, 16);
+   TileMap *result_map = new TileMap(0, 0, 16);
+
+   draw_rectangle(creators_map, writers_tile, 2, 2, 10, 5);
+
+   TileConvolutionFilter filter(zoria_grass_16_tileset.get_set(), creators_map, result_map);
+   filter.process(writers_tile);
+
+   //delete creators_map;
+   return creators_map;
 }
 
 
