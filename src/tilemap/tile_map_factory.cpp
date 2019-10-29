@@ -2,6 +2,7 @@
 
 #include <tilemap/tile_map_factory.hpp>
 
+#include <tilemap/lib/TileMapConvolutionBehavior/SixteenTileNeighborBehavior.hpp>
 #include <tilemap/lib/TileMapConvolutionFilter.hpp>
 #include <tilemap/tile_map.hpp>
 
@@ -127,7 +128,9 @@ TileMap *TileMapFactory::create_zoria_grass_map()
 
    draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 2, 2, 10, 5);
 
-   draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 0, 0, 16*2-1, 9*2-1);
+   draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 0, 0, 16*2-2, 9*2-2);
+
+   draw_barrier(tile_map, &zoria_tiles_sprite_sheet, 20, 8, 25, 17);
 
    return tile_map;
 }
@@ -147,7 +150,7 @@ TileMap *TileMapFactory::create_zoria_processed_map()
    draw_rectangle(creators_map, grass_writers_tile, 3, 4, 10, 5);
    draw_rectangle(creators_map, grass_writers_tile, 3, 4, 3, 7);
 
-   TileMapConvolutionFilter grass_filter(zoria_grass_16_tileset.get_set(), creators_map, result_map);
+   TileMapConvolutionFilter grass_filter(TileMapConvolutionBehavior::SIXTEEN_TILE_NEIGHBOR_BEHAVIOR, zoria_grass_16_tileset.get_set(), creators_map, result_map);
    grass_filter.process(grass_writers_tile);
 
    // write the wall
@@ -158,7 +161,7 @@ TileMap *TileMapFactory::create_zoria_processed_map()
    creators_map->set_tile(10, 8, nullptr);
    creators_map->set_tile(11, 8, nullptr);
 
-   TileMapConvolutionFilter wall_filter(zoria_wall_16_tileset.get_set(), creators_map, result_map);
+   TileMapConvolutionFilter wall_filter(TileMapConvolutionBehavior::SIXTEEN_TILE_NEIGHBOR_BEHAVIOR, zoria_wall_16_tileset.get_set(), creators_map, result_map);
    wall_filter.process(wall_writers_tile);
 
    delete creators_map;

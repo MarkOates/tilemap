@@ -65,6 +65,7 @@ public:
       , solid_tiles(tile_map_factory.get_zoria_solids())
    {
       (new Sprite(&sprite_root))->set("player_controlled");
+      camera.size = -vec2d(1280/7, 720/7);
    }
 
    Sprite *player_controlled_sprite()
@@ -85,6 +86,9 @@ public:
    {
       std::vector<Sprite *> sprites = sprite_root.get_flat_list_of_descendants<Sprite>();
       for (auto &sprite : sprites) TileMapCollisionResponse{current_tile_map, sprite}.process(on_collide, &solid_tiles);
+
+      Sprite *player_sprite = player_controlled_sprite();
+      camera.position = -player_sprite->placement.position;
    }
 
    void render_scene()

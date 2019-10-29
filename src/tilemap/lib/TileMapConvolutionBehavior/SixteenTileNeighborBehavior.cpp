@@ -22,6 +22,17 @@ namespace TileMapConvolutionBehavior
 {
 
 
+SixteenTileNeighborBehavior::SixteenTileNeighborBehavior()
+   : Base()
+{
+}
+
+
+SixteenTileNeighborBehavior::~SixteenTileNeighborBehavior()
+{
+}
+
+
 void SixteenTileNeighborBehavior::execute(
       ALLEGRO_BITMAP *source_comparison_tile,
       const std::vector<ALLEGRO_BITMAP *> tile_set,
