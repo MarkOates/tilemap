@@ -1,4 +1,4 @@
-## This `tilemap` project is now obsolete
+## ⚠️  This `tilemap` project is now obsolete
 
 The majority of the work that was started in this repo is now in [allegro_flare](https://github.com/MarkOates/allegro_flare). Most of the processes may have different interfaces or methodologies. For example:
 
